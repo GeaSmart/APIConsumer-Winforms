@@ -11,7 +11,7 @@ namespace ConsumidorAPI.ApiHelper
 {
     public class Consumer
     {
-        private HttpMethod CreateHttpMethod(methodHttp method)
+        private static HttpMethod CreateHttpMethod(methodHttp method)
         {
             switch (method)
             {
@@ -28,7 +28,7 @@ namespace ConsumidorAPI.ApiHelper
             }
         }
 
-        public async Task<Reply> Execute<T>(string url, methodHttp method, T objectRequest)
+        public static async Task<Reply> Execute<T>(string url, methodHttp method, T objectRequest)
         {
             Reply oReply = new Reply();
             try
@@ -42,7 +42,7 @@ namespace ConsumidorAPI.ApiHelper
 
                     var request = new HttpRequestMessage(CreateHttpMethod(method), url)
                     {
-                        Content = method != methodHttp.GET ? bytecontent : null
+                        Content = (method != methodHttp.GET) ? method != methodHttp.DELETE ? bytecontent : null : null
                     };
 
                     using (HttpResponseMessage res = await client.SendAsync(request))
